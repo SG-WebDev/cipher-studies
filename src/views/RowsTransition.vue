@@ -4,7 +4,14 @@
     <section class="section">
       <div class="section__Label">Text Input:</div>
       <div class="section__Item">
-        <textarea :placeholder="`Max ${maxChars} characters...`" :maxlength="maxChars" name="rows-transitioon-input" id="" cols="30" rows="10" v-model="inputString"></textarea>
+        <textarea
+                :placeholder="`Max ${maxChars} characters and only english characters are acceptable...`"
+                :maxlength="maxChars" name="rows-transitioon-input"
+                cols="30"
+                rows="10"
+                v-model="inputString"
+                @keypress="limitChars($event)">
+        </textarea>
       </div>
       <div class="section__Label">Text Output:</div>
     </section>
@@ -31,6 +38,12 @@
     watch: {
     },
     methods: {
+      limitChars: function (e) {
+        let char = e.key;
+        if (!/^[a-z\d .,:]*$/i.test(char)) {
+          e.preventDefault()
+        }
+      }
     }
   };
 </script>

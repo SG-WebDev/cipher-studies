@@ -85,6 +85,22 @@ textarea {
   width: 100%;
 }
 
+button {
+  appearance: none;
+  margin: 15px;
+  box-shadow: none;
+  background-color: $altColor;
+  color: $textAltColor;
+  font-size: 1rem;
+  border: 2px solid $altColor;
+  padding: 15px 35px;
+  &:hover {
+    cursor: pointer;
+    color: $textColor;
+    background-color: #ffffff;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .nav__Link {
     font-size: 1.25rem;

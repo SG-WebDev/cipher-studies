@@ -15,10 +15,6 @@
 </template>
 <style lang="scss">
   .home {
-    &__Heading {
-      font-size: 3rem;
-      font-weight: 600;
-    }
     &__Desc {
       display: flex;
       flex-direction: column;
@@ -28,11 +24,3 @@
     }
   }
 </style>
-<script>
-// @ is an alias to /src
-
-export default {
-  name: 'Home',
-
-}
-</script>

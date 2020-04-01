@@ -26,6 +26,11 @@ $textAltColor: #ffffff;
   text-align: center;
   color: $textColor;
 }
+h1 {
+  font-size: 3rem;
+  font-weight: 600;
+  margin: 25px 0;
+}
 
 .nav {
   position: absolute;
@@ -35,21 +40,54 @@ $textAltColor: #ffffff;
   display: flex;
   justify-content: space-between;
   &__Item {
-    background-color: $lightGray;
     display: flex;
     align-items: center;
     justify-content: center;
     flex: 1;
+    overflow: hidden;
   }
   &__Link {
+    background-color: $lightGray;
     color: $textAltColor;
     text-decoration: none;
     font-size: 1.75rem;
     flex-basis: 100%;
-    padding: 15px 0;
+    padding: 15px;
+    margin: auto;
+    align-self: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   .router-link-exact-active {
     background-color: $mainColor;
+  }
+}
+.section {
+  padding: 15px 25px;
+  &__Item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 8px;
+    margin-bottom: 16px;
+  }
+  &__Label {
+    margin-top: 8px;
+    margin-bottom: 16px;
+    font-size: 1.25rem;
+    font-weight: 300;
+  }
+}
+textarea {
+  resize: vertical;
+  width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .nav__Link {
+    font-size: 1.25rem;
   }
 }
 </style>

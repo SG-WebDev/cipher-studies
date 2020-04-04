@@ -35,8 +35,7 @@
       return {
         inputString: "",
         outputString: "",
-        encryptMatrix: [],
-        decryptMatrix: [],
+        matrix: [],
         cipherKey: {
           colsArr: [4,8,1,7,3,6,5,2],
           colsAmount: 8,
@@ -67,21 +66,24 @@
           e.preventDefault()
         }
       },
-      encryptString() {
-        // create matrix
-        this.encryptMatrix = [];
+      createMatrix() {
+        this.matrix = [];
         for (let i = 0; i < this.cipherKey.rowsAmount; i++) {
-          this.encryptMatrix[i] = [];
+          this.matrix[i] = [];
           for (let x = 0; x < this.cipherKey.colsAmount; x++) {
-            this.encryptMatrix[i][x] = null;
+            this.matrix[i][x] = null;
           }
         }
-        // fill encryption matrix by chars
+      },
+      encryptString() {
         let char = 0;
+        this.createMatrix();
+
+        // fill encryption matrix by chars
         for (let i = 0; i < this.cipherKey.rowsAmount; i++) {
           for (let x = 0; x < this.cipherKey.colsAmount; x++) {
             if(this.inputToEncryptString[char]) {
-              this.encryptMatrix[i][x] = this.inputToEncryptString[char];
+              this.matrix[i][x] = this.inputToEncryptString[char];
             }
             char++;
           }
@@ -90,40 +92,35 @@
         let encryptedString = '';
         for (let x = 0; x < this.cipherKey.colsAmount; x++) {
           for (let i = 0; i < this.cipherKey.rowsAmount; i++) {
-            if(this.encryptMatrix[i][this.cipherKey.colsArr[x]-1]) {
-              encryptedString = `${encryptedString}${this.encryptMatrix[i][this.cipherKey.colsArr[x]-1]}`;
+            if(this.matrix[i][this.cipherKey.colsArr[x]-1]) {
+              encryptedString = `${encryptedString}${this.matrix[i][this.cipherKey.colsArr[x]-1]}`;
             }
           }
         }
+
         this.outputString = encryptedString;
       },
       decryptString() {
-        // create matrix
-        this.decryptMatrix = [];
-        for (let i = 0; i < this.cipherKey.rowsAmount; i++) {
-          this.decryptMatrix[i] = [];
-          for (let x = 0; x < this.cipherKey.colsAmount; x++) {
-            this.decryptMatrix[i][x] = null;
-          }
-        }
-
         let colsAmounts = Math.floor(this.inputToDecryptString.length/this.cipherKey.colsAmount);
         let modCols = this.inputToDecryptString.length%this.cipherKey.colsAmount;
         let decryptedString = '';
         let char = 0;
+        this.createMatrix();
 
         for(let i = 0; i < this.cipherKey.colsAmount; i++){
           let rowsAmount = this.cipherKey.colsArr[i] <= modCols ? colsAmounts+1 : colsAmounts;
           for(let x = 0; x < rowsAmount; x++){
             if(this.inputToDecryptString[char]) {
-              this.decryptMatrix[x][this.cipherKey.colsArr[i]-1] = this.inputToDecryptString[char];
+              this.matrix[x][this.cipherKey.colsArr[i]-1] = this.inputToDecryptString[char];
               char++;
             }
           }
         }
-        decryptedString =  this.decryptMatrix
+        
+        decryptedString =  this.matrix
                 .map(e => e.join(""))
                 .join("");
+
         this.outputString = decryptedString;
       }
     }

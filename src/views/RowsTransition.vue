@@ -15,12 +15,12 @@
       </div>
       <div class="section__Item">
         <button class="button" @click="encryptString">Encrypt Text</button>
-<!--        <button @click="decryptString">Decrypt Text</button>-->
+        <button class="button" @click="decryptString">Decrypt Text</button>
       </div>
       <div class="section__Label">Text Output:</div>
       <div class="section__Item">
         <textarea
-                placeholder="There will be decrypted text"
+                placeholder="There will be output text. If you run decrypt text will be without spaces."
                 cols="30"
                 rows="10"
                 v-model="outputString">
@@ -48,17 +48,22 @@
       maxChars() {
         return this.cipherKey.colsAmount * this.cipherKey.rowsAmount;
       },
-      encryptionString() {
+      inputToEncryptString() {
         return this.inputString.toString()
                 .split(" ")
-                .join("")
+                .join("+")
                 .trim();
-      }
+      },
+      inputToDecryptString() {
+        return this.inputString.toString()
+                .split("+")
+                .join(" ");
+      },
     },
     methods: {
       limitChars: function (e) {
         let char = e.key;
-        if (!/^[a-z\d .,:]*$/i.test(char)) {
+        if (!/^[a-z\d .,:+]*$/i.test(char)) {
           e.preventDefault()
         }
       },
@@ -75,8 +80,8 @@
         let char = 0;
         for (let i = 0; i < this.cipherKey.rowsAmount; i++) {
           for (let x = 0; x < this.cipherKey.colsAmount; x++) {
-            if(this.encryptionString[char]) {
-              this.encryptMatrix[i][x] = this.encryptionString[char];
+            if(this.inputToEncryptString[char]) {
+              this.encryptMatrix[i][x] = this.inputToEncryptString[char];
             }
             char++;
           }
@@ -91,6 +96,35 @@
           }
         }
         this.outputString = encryptedString;
+      },
+      decryptString() {
+        // create matrix
+        this.decryptMatrix = [];
+        for (let i = 0; i < this.cipherKey.rowsAmount; i++) {
+          this.decryptMatrix[i] = [];
+          for (let x = 0; x < this.cipherKey.colsAmount; x++) {
+            this.decryptMatrix[i][x] = null;
+          }
+        }
+
+        let colsAmounts = Math.floor(this.inputToDecryptString.length/this.cipherKey.colsAmount);
+        let modCols = this.inputToDecryptString.length%this.cipherKey.colsAmount;
+        let decryptedString = '';
+        let char = 0;
+
+        for(let i = 0; i < this.cipherKey.colsAmount; i++){
+          let rowsAmount = this.cipherKey.colsArr[i] <= modCols ? colsAmounts+1 : colsAmounts;
+          for(let x = 0; x < rowsAmount; x++){
+            if(this.inputToDecryptString[char]) {
+              this.decryptMatrix[x][this.cipherKey.colsArr[i]-1] = this.inputToDecryptString[char];
+              char++;
+            }
+          }
+        }
+        decryptedString =  this.decryptMatrix
+                .map(e => e.join(""))
+                .join("");
+        this.outputString = decryptedString;
       }
     }
   };

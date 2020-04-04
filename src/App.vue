@@ -58,6 +58,7 @@ h1 {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    transition: all 0.2s ease-in-out;
   }
   .router-link-exact-active {
     background-color: $mainColor;
@@ -69,7 +70,6 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
     margin-top: 8px;
     margin-bottom: 16px;
   }
@@ -94,6 +94,7 @@ button {
   font-size: 1rem;
   border: 2px solid $altColor;
   padding: 15px 35px;
+  transition: all 0.2s ease-in-out;
   &:hover {
     cursor: pointer;
     color: $textColor;

@@ -27,8 +27,31 @@
         </textarea>
       </div>
     </section>
+    <div class="section__Item">
+      <label class="button">
+        Upload .txt file to encrypt
+        <input class="nativeFileInput"
+               type="file"
+               @change="uploadFile"
+        >
+      </label>
+      <a  class="button"
+          :href="`data:text/plain;charset=utf-8,${encodeURIComponent(outputString)}`"
+          :download="`encrypted_${currentTime}.txt`"
+      >
+        Save decrypted text as .txt file
+      </a>
+    </div>
   </div>
 </template>
+<style lang="scss" scoped>
+  .nativeFileInput {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+</style>
 <script>
   export default {
     data() {
@@ -58,6 +81,12 @@
                 .split("+")
                 .join(" ");
       },
+      currentTime() {
+        let today = new Date();
+        let date = `${today.getFullYear()}-${(today.getMonth()+1)}-${today.getDate()}`;
+        let time = `${today.getHours()}${today.getMinutes()}${today.getSeconds()}`;
+        return `${date}_${time}`;
+      }
     },
     methods: {
       limitChars: function (e) {
@@ -122,6 +151,13 @@
                 .join("");
 
         this.outputString = decryptedString;
+      },
+      uploadFile(e) {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.readAsText(file);
+        reader.onload = e => this.$emit("load",
+                this.inputString =  e.target.result);
       }
     }
   };

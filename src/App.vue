@@ -28,7 +28,7 @@ $textAltColor: #ffffff;
 }
 h1 {
   font-size: 3rem;
-  font-weight: 600;
+  font-weight: 500;
   margin: 25px 0;
 }
 
@@ -59,6 +59,7 @@ h1 {
     white-space: nowrap;
     text-overflow: ellipsis;
     transition: all 0.2s ease-in-out;
+    font-weight: 500;
   }
   .router-link-exact-active {
     background-color: $mainColor;
@@ -85,7 +86,7 @@ textarea {
   width: 100%;
 }
 
-button {
+.button {
   appearance: none;
   margin: 15px;
   box-shadow: none;
@@ -95,6 +96,9 @@ button {
   border: 2px solid $altColor;
   padding: 15px 35px;
   transition: all 0.2s ease-in-out;
+  text-decoration: none;
+  font-family: inherit;
+  font-weight: 500;
   &:hover {
     cursor: pointer;
     color: $textColor;

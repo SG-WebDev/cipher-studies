@@ -1,7 +1,8 @@
 # cipher-studies
 This is studies project prepared for Basics of Data Security lessons
 
-##Demo
+## Demo
+
 https://sg-webdev.github.io/cipher-studies/
 
 ## Project setup

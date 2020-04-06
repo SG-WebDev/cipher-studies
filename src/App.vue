@@ -25,6 +25,8 @@ $textAltColor: #ffffff;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: $textColor;
+  margin-bottom: 60px;
+  overflow: hidden;
 }
 h1 {
   font-size: 3rem;
@@ -33,10 +35,10 @@ h1 {
 }
 
 .nav {
-  position: absolute;
+  position: fixed;
   left: 0;
   bottom: 0;
-  width: 100%;
+  width: 100vw;
   display: flex;
   justify-content: space-between;
   &__Item {

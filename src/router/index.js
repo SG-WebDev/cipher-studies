@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import RowsTransition from '../views/RowsTransition.vue'
+import BBS from '../views/BBS.vue'
 
 Vue.use(VueRouter)
 
@@ -13,12 +15,12 @@ const routes = [
   {
     path: '/rows-transition',
     name: 'rows-transition',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: function () {
-      return import(/* webpackChunkName: "about" */ '../views/RowsTransition.vue')
-    }
+    component: RowsTransition
+  },
+  {
+    path: '/bbs',
+    name: 'BBS',
+    component: BBS
   }
 ]
 

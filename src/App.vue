@@ -8,6 +8,9 @@
       <div class="nav__Item">
         <router-link class="nav__Link" to="/rows-transition">Rows Transition</router-link>
       </div>
+      <div class="nav__Item">
+        <router-link class="nav__Link" to="/bbs">BBS</router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -16,6 +19,7 @@
 $mainColor: #336e7b;
 $altColor: #558f9d;
 $lightGray: #bdc3c7;
+$gray: #9ba1a5;
 $textColor: #333333;
 $textAltColor: #ffffff;
 
@@ -62,6 +66,9 @@ h1 {
     text-overflow: ellipsis;
     transition: all 0.2s ease-in-out;
     font-weight: 500;
+    &:hover {
+      background-color: $gray;
+    }
   }
   .router-link-exact-active {
     background-color: $mainColor;

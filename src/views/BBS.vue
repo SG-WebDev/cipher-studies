@@ -7,7 +7,18 @@
 </template>
 
 <script>
+    import numberTheory from "number-theory"
     export default {
-        name: "BBS"
+        name: "BBS",
+        data() {
+            return {
+                bitsAmount: 20000
+            };
+        },
+        methods: {
+            generateBitsSeries(amount) {
+
+            }
+        }
     }
 </script>

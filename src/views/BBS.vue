@@ -4,7 +4,7 @@
         <section class="section">
             <div class="section__Label">Bits Series:</div>
             <div class="section__Item">
-                <p class="smallText">{{bitsSeries ? bitsSeries : "You're not generate bits yet."}}</p>
+                <p class="smallText">{{bitsSeries ? showBitsSeries : "You're not generate bits yet."}}</p>
             </div>
             <div class="section__Label">Tests:</div>
             <div class="section__Item">
@@ -43,12 +43,54 @@
                 }
             };
         },
+        computed: {
+            showBitsSeries() {
+                return this.bitsSeries.toString()
+                    .split(",")
+                    .join("");
+            },
+        },
         methods: {
+            generateBlumNumber() {
+            },
+            generateInitX() {
+            },
             generateBitsSeries(amount) {
-
+                let n = this.generateBlumNumber;
+                let x = this.generateInitX;
+                let x0 = numberTheory.powerMod(x, 2, n);
+                let x_prev = x0;
+                let arrayOfBits = [];
+                for(let i = 1; i <= amount; i++) {
+                    let bitMask = 1 << 5;
+                    let xi =  numberTheory.powerMod(x_prev, 2, n)
+                    x_prev = xi;
+                    let lsb = 0;
+                    if ((xi & bitMask) != 0) {
+                        console.log("Positive bit address");
+                        lsb = 1;
+                    } else {
+                        console.log("Negative bit address");
+                        lsb = 0;
+                    }
+                    arrayOfBits.push(lsb);
+                }
+                this.bitsSeries = arrayOfBits;
+            },
+            generateBigPrimeNumber() {
+                let number;
+                while(true) {
+                    number = new Uint16Array(1);
+                    window.crypto.getRandomValues(number);
+                    if(numberTheory.isPrime(number[0])) {
+                        console.log(number[0]);
+                        break;
+                    }
+                    console.log(number[0]);
+                }
             },
             runBBS() {
-
+                this.generateBigPrimeNumber();
             }
         }
     }

@@ -82,7 +82,7 @@
                 while(true) {
                     number = new Uint16Array(1);
                     window.crypto.getRandomValues(number);
-                    if(numberTheory.isPrime(number[0]) & number[0] > 10000) {
+                    if(numberTheory.isPrime(number[0]) && number[0] > 10000) {
                         console.log(number[0]);
                         break;
                     }

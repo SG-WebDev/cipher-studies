@@ -8,10 +8,10 @@
             </div>
             <div class="section__Label">Tests:</div>
             <div class="section__Item">
-                <p>Series test: {{test.series ? "valid" : "invalid"}}</p>
-                <p>Long Series test: {{test.longSeries ? "valid" : "invalid"}}</p>
-                <p>Single Bit test: {{test.singleBit ? "valid" : "invalid"}}</p>
-                <p>Poker test: {{test.poker ? "valid" : "invalid"}}</p>
+                <p>Series test: <strong>{{test.series ? "valid" : "invalid"}}</strong></p>
+                <p>Long Series test: <strong>{{test.longSeries ? "valid" : "invalid"}}</strong></p>
+                <p>Single Bit test: <strong>{{test.singleBit ? "valid" : "invalid"}}</strong></p>
+                <p>Poker test: <strong>{{test.poker ? "valid" : "invalid"}}</strong></p>
             </div>
             <div class="section__Item">
                 <button class="button" @click="runBBS">RUN</button>
@@ -117,11 +117,24 @@
                 console.log(`Big prime number is ${bigPrimeNumber}`)
                 return bigPrimeNumber;
             },
+            singleBitTest() {
+                console.log(this.bitsSeries);
+                let bitsChars = this.bitsSeries;
+                let i = 0;
+                bitsChars.forEach(bit => {
+                    if(bit === 1) {
+                        i++;
+                    }
+                });
+
+                this.test.singleBit = !((i < 9725) || (i > 10275));
+            },
             runBBS() {
                 let t0 = performance.now();
                 this.generateBitsSeries(this.bitsAmount);
                 let t1 = performance.now();
-                alert(`generateBitsSeries() function takes ${(t1 - t0)} milliseconds`)
+                console.log(`generateBitsSeries() function takes ${(t1 - t0)} milliseconds`)
+                this.singleBitTest();
             }
         }
     }

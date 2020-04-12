@@ -29,6 +29,7 @@
 </style>
 <script>
     import numberTheory from "number-theory"
+    import bigInt from "big-integer"
     export default {
         name: "BBS",
         data() {
@@ -78,15 +79,18 @@
                 this.bitsSeries = arrayOfBits;
             },
             generateBigPrimeNumber() {
-                let number;
+                //256 bit number
+                let min = bigInt.zero;
+                let max = bigInt(2).pow(256);
                 while(true) {
-                    number = new Uint16Array(1);
-                    window.crypto.getRandomValues(number);
-                    if(numberTheory.isPrime(number[0]) && number[0] > 10000) {
-                        console.log(number[0]);
+                    let number = bigInt.randBetween(min, max);
+                    console.log(number)
+                    if(bigInt(number).isPrime() && number > 10000) {
+                        console.log(bigInt(number).isPrime());
+                        console.log(bigInt(number).value);
                         break;
                     }
-                    console.log(number[0]);
+
                 }
             },
             runBBS() {

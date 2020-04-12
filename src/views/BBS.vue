@@ -25,17 +25,20 @@
     }
     .smallText {
         font-size: 12px;
+        word-break: break-all;
     }
 </style>
 <script>
-    import numberTheory from "number-theory"
-    import bigInt from "big-integer"
+    import bigInteger from "big-integer";
     export default {
         name: "BBS",
         data() {
             return {
                 bitsAmount: 20000,
                 bitsSeries: null,
+                x0: 0,
+                n: 0,
+                prime: 0,
                 test: {
                     series: false,
                     longSeries: false,
@@ -52,49 +55,73 @@
             },
         },
         methods: {
-            generateBlumNumber() {
-            },
-            generateInitX() {
-            },
             generateBitsSeries(amount) {
-                let n = this.generateBlumNumber;
-                let x = this.generateInitX;
-                let x0 = numberTheory.powerMod(x, 2, n);
+                this.generateBlumNumber();
+                this.generateInitX(bigInteger(this.n));
+
+                let x0 = bigInteger(this.x0).modPow(2, bigInteger(this.n));
                 let x_prev = x0;
                 let arrayOfBits = [];
                 for(let i = 1; i <= amount; i++) {
-                    let bitMask = 1 << 5;
-                    let xi =  numberTheory.powerMod(x_prev, 2, n)
+                    let xi =  bigInteger(x_prev).modPow(2, bigInteger(this.n));
                     x_prev = xi;
                     let lsb = 0;
-                    if ((xi & bitMask) != 0) {
-                        console.log("Positive bit address");
-                        lsb = 1;
-                    } else {
+                    if (bigInteger(x_prev).isEven()) {
                         console.log("Negative bit address");
                         lsb = 0;
+                    } else {
+                        console.log("Positive bit address");
+                        lsb = 1;
                     }
                     arrayOfBits.push(lsb);
                 }
                 this.bitsSeries = arrayOfBits;
             },
-            generateBigPrimeNumber() {
-                //256 bit number
-                let min = bigInt.zero;
-                let max = bigInt(2).pow(256);
+            generateBlumNumber() {
+                let n;
+                let p = this.generateBigPrimeNumber();
+                let q = this.generateBigPrimeNumber();
+                n = bigInteger(p).multiply(q);
+                console.log(`Blum number is ${n}`);
+                this.n = n;
+            },
+            generateInitX(n) {
+                //512 bit number
+                let min = bigInteger.zero;
+                let max = bigInteger(2).pow(512);
+                let testedNumber;
+                let x0;
                 while(true) {
-                    let number = bigInt.randBetween(min, max);
-                    console.log(number)
-                    if(bigInt(number).isPrime() && number > 10000) {
-                        console.log(bigInt(number).isPrime());
-                        console.log(bigInt(number).value);
+                    testedNumber = bigInteger.randBetween(min, max);
+                    if(bigInteger.gcd(testedNumber, n).equals(1)) {
+                        x0 = testedNumber;
                         break;
                     }
-
                 }
+                console.log(`Init X0 number is ${x0}`)
+                this.x0 = x0;
+            },
+            generateBigPrimeNumber() {
+                //512 bit number
+                let min = bigInteger.zero;
+                let max = bigInteger(2).pow(512);
+                let testedNumber;
+                let bigPrimeNumber;
+                while(true) {
+                    testedNumber = bigInteger.randBetween(min, max);
+                    if(bigInteger(testedNumber).isPrime() && bigInteger(testedNumber).value > 10000) {
+                        bigPrimeNumber = testedNumber;
+                        break;
+                    }
+                }
+                console.log(`Big prime number is ${bigPrimeNumber}`)
+                return bigPrimeNumber;
             },
             runBBS() {
-                this.generateBigPrimeNumber();
+                let t0 = performance.now();
+                this.generateBitsSeries(this.bitsAmount);
+                let t1 = performance.now();
+                alert(`generateBitsSeries() function takes ${(t1 - t0)} milliseconds`)
             }
         }
     }

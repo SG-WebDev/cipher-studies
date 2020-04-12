@@ -98,7 +98,7 @@
                         break;
                     }
                 }
-                console.log(`Init X0 number is ${x0}`)
+                console.log(`Init X0 number is ${x0}`);
                 this.x0 = x0;
             },
             generateBigPrimeNumber() {
@@ -119,9 +119,9 @@
             },
             singleBitTest() {
                 console.log(this.bitsSeries);
-                let bitsChars = this.bitsSeries;
+                let bits = this.bitsSeries;
                 let i = 0;
-                bitsChars.forEach(bit => {
+                bits.forEach(bit => {
                     if(bit === 1) {
                         i++;
                     }
@@ -129,12 +129,31 @@
 
                 this.test.singleBit = !((i < 9725) || (i > 10275));
             },
+            longSeriesTest() {
+                let i = 0;
+                let bits = this.bitsSeries;
+                let lastBit = bits[0];
+                let isValid = true;
+                bits.forEach(function(item, index) {
+                    let testedBit = bits[index];
+                    if(testedBit === lastBit) {
+                        i++;
+                        if(i>=26) {
+                            isValid = false;
+                        }
+                    } else {
+                        i = 0;
+                    }
+                });
+                this.test.longSeries = isValid;
+            },
             runBBS() {
                 let t0 = performance.now();
                 this.generateBitsSeries(this.bitsAmount);
                 let t1 = performance.now();
                 console.log(`generateBitsSeries() function takes ${(t1 - t0)} milliseconds`)
                 this.singleBitTest();
+                this.longSeriesTest();
             }
         }
     }

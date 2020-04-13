@@ -118,8 +118,7 @@
                 return bigPrimeNumber;
             },
             singleBitTest() {
-                console.log(this.bitsSeries);
-                let bits = this.bitsSeries;
+                let bits = [...this.bitsSeries];
                 let i = 0;
                 bits.forEach(bit => {
                     if(bit === 1) {
@@ -131,7 +130,7 @@
             },
             longSeriesTest() {
                 let i = 0;
-                let bits = this.bitsSeries;
+                let bits = [...this.bitsSeries];
                 let lastBit = bits[0];
                 let isValid = true;
                 bits.forEach(function(item, index) {
@@ -147,6 +146,55 @@
                 });
                 this.test.longSeries = isValid;
             },
+            seriesTest() {
+
+            },
+            pokerTest() {
+                let bits = [...this.bitsSeries];
+                let bitsSegments = [];
+                let schemas = [];
+                let isValid = false;
+                for (let x = 0; x < 5000; x++) {
+                    bitsSegments[x] = bits.splice(0, 4).toString()
+                        .split(",")
+                        .join("");
+                }
+                for(let y = 0; y < 16; y++) {
+                    schemas[y] = 0;
+                }
+                bitsSegments.forEach(bitsSegment => {
+                    switch (bitsSegment) {
+                        case '0000': schemas[0]++; break;
+                        case '0001': schemas[1]++; break;
+                        case '0010': schemas[2]++; break;
+                        case '0011': schemas[3]++; break;
+                        case '0100': schemas[4]++; break;
+                        case '0101': schemas[5]++; break;
+                        case '0110': schemas[6]++; break;
+                        case '0111': schemas[7]++; break;
+                        case '1000': schemas[8]++; break;
+                        case '1001': schemas[9]++; break;
+                        case '1010': schemas[10]++; break;
+                        case '1011': schemas[11]++; break;
+                        case '1101': schemas[12]++; break;
+                        case '1110': schemas[13]++; break;
+                        case '1100': schemas[14]++; break;
+                        case '1111': schemas[15]++; break;
+                        default: console.log('Any schema');
+                    }
+                });
+
+                let sigma = 0;
+                schemas.forEach(schema => {
+                    sigma += Math.pow(schema, 2);
+                });
+
+                let x = (16/5000) * sigma - 5000;
+                if((x > 2.16) && (x < 46.17)) {
+                    isValid = true;
+                }
+                this.test.poker = isValid;
+            },
             runBBS() {
                 let t0 = performance.now();
                 this.generateBitsSeries(this.bitsAmount);
@@ -154,6 +202,9 @@
                 console.log(`generateBitsSeries() function takes ${(t1 - t0)} milliseconds`)
                 this.singleBitTest();
                 this.longSeriesTest();
+                this.pokerTest();
+                let t2 = performance.now();
+                console.log(`generateBitsSeries() with four FIPS 140-2 tests takes ${(t2 - t0)} milliseconds`)
             }
         }
     }

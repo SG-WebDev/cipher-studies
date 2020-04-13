@@ -67,10 +67,8 @@
                     x_prev = xi;
                     let lsb = 0;
                     if (bigInteger(x_prev).isEven()) {
-                        console.log("Negative bit address");
                         lsb = 0;
                     } else {
-                        console.log("Positive bit address");
                         lsb = 1;
                     }
                     arrayOfBits.push(lsb);
@@ -143,11 +141,137 @@
                     } else {
                         i = 0;
                     }
+                    lastBit = bits[index-1];
                 });
                 this.test.longSeries = isValid;
             },
             seriesTest() {
+                let bits = [...this.bitsSeries];
+                let isValid = false;
+                let schemas = [];
+                for(let y = 1; y <= 6; y++) {
+                    schemas[y] = 0;
+                }
+                bits.forEach(function(item, index) {
+                    let testedBit = bits[index];
+                    let prevBit = bits[index-1];
+                    let prev2Bit = bits[index-2];
+                    let prev3Bit = bits[index-3];
+                    let prev4Bit = bits[index-4];
+                    let prev5Bit = bits[index-5];
+                    let prev6Bit = bits[index-6];
 
+                    if( testedBit === prev6Bit &&
+                        testedBit === prev5Bit &&
+                        testedBit === prev4Bit &&
+                        testedBit === prev3Bit &&
+                        testedBit === prev2Bit &&
+                        testedBit === prevBit &&
+                        typeof testedBit !== "undefined") {
+                        schemas[6]++;
+                        bits[index] = undefined;
+                        bits[index-1] = undefined;
+                        bits[index-2] = undefined;
+                        bits[index-3] = undefined;
+                        bits[index-4] = undefined;
+                        bits[index-5] = undefined;
+                        bits[index-6] = undefined;
+                    }
+                });
+                bits.forEach(function(item, index) {
+                    let testedBit = bits[index];
+                    let prevBit = bits[index-1];
+                    let prev2Bit = bits[index-2];
+                    let prev3Bit = bits[index-3];
+                    let prev4Bit = bits[index-4];
+                    let prev5Bit = bits[index-5];
+
+                    if( testedBit === prev5Bit &&
+                        testedBit === prev4Bit &&
+                        testedBit === prev3Bit &&
+                        testedBit === prev2Bit &&
+                        testedBit === prevBit &&
+                        typeof testedBit !== "undefined") {
+                        schemas[5]++;
+                        bits[index] = undefined;
+                        bits[index-1] = undefined;
+                        bits[index-2] = undefined;
+                        bits[index-3] = undefined;
+                        bits[index-4] = undefined;
+                        bits[index-5] = undefined;
+                    }
+                });
+                bits.forEach(function(item, index) {
+                    let testedBit = bits[index];
+                    let prevBit = bits[index-1];
+                    let prev2Bit = bits[index-2];
+                    let prev3Bit = bits[index-3];
+                    let prev4Bit = bits[index-4];
+
+                    if( testedBit === prev4Bit &&
+                        testedBit === prev3Bit &&
+                        testedBit === prev2Bit &&
+                        testedBit === prevBit &&
+                        typeof testedBit !== "undefined") {
+                        schemas[4]++;
+                        bits[index] = undefined;
+                        bits[index-1] = undefined;
+                        bits[index-2] = undefined;
+                        bits[index-3] = undefined;
+                        bits[index-4] = undefined;
+                    }
+                });
+                bits.forEach(function(item, index) {
+                    let testedBit = bits[index];
+                    let prevBit = bits[index-1];
+                    let prev2Bit = bits[index-2];
+                    let prev3Bit = bits[index-3];
+
+                    if( testedBit === prev3Bit &&
+                        testedBit === prev2Bit &&
+                        testedBit === prevBit &&
+                        typeof testedBit !== "undefined") {
+                        schemas[3]++;
+                        bits[index] = undefined;
+                        bits[index-1] = undefined;
+                        bits[index-2] = undefined;
+                        bits[index-3] = undefined;
+                    }
+                });
+                bits.forEach(function(item, index) {
+                    let testedBit = bits[index];
+                    let prevBit = bits[index-1];
+                    let prev2Bit = bits[index-2];
+
+                    if( testedBit === prev2Bit  &&
+                        testedBit === prevBit &&
+                        typeof testedBit !== "undefined") {
+                        schemas[2]++;
+                        bits[index] = undefined;
+                        bits[index-1] = undefined;
+                        bits[index-2] = undefined;
+                    }
+                });
+                bits.forEach(function(item, index) {
+                    let testedBit = bits[index];
+                    let prevBit = bits[index-1];
+                    if( testedBit === prevBit &&
+                        typeof testedBit !== "undefined") {
+                        schemas[1]++;
+                        bits[index] = undefined;
+                        bits[index-1] = undefined;
+                    }
+                });
+                if( schemas[1] > 2315 && schemas[1] < 2685 &&
+                    schemas[2] > 1114 && schemas[2] < 1386 &&
+                    schemas[3] > 527 && schemas[3] < 723 &&
+                    schemas[4] > 240 && schemas[4] < 384 &&
+                    schemas[5] > 103 && schemas[5] < 209 &&
+                    schemas[6] > 103 && schemas[6] < 209 ) {
+                    isValid = true;
+                }
+                console.log(schemas);
+                this.test.series = isValid;
             },
             pokerTest() {
                 let bits = [...this.bitsSeries];
@@ -180,7 +304,7 @@
                         case '1110': schemas[13]++; break;
                         case '1100': schemas[14]++; break;
                         case '1111': schemas[15]++; break;
-                        default: console.log('Any schema');
+                        default: break;
                     }
                 });
 
@@ -199,10 +323,11 @@
                 let t0 = performance.now();
                 this.generateBitsSeries(this.bitsAmount);
                 let t1 = performance.now();
-                console.log(`generateBitsSeries() function takes ${(t1 - t0)} milliseconds`)
+                console.log(`generateBitsSeries() function takes ${(t1 - t0)} milliseconds`);
                 this.singleBitTest();
                 this.longSeriesTest();
                 this.pokerTest();
+                this.seriesTest();
                 let t2 = performance.now();
                 console.log(`generateBitsSeries() with four FIPS 140-2 tests takes ${(t2 - t0)} milliseconds`)
             }

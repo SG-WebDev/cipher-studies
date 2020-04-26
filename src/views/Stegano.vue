@@ -30,7 +30,7 @@
         <span class="previewLabel">Encrypted Image Preview:</span>
         <img id="previewEncryptedIMG" class="previewImage" src="" alt="Preview of uploaded image">
       </div>
-      <div class="section__Label"><b class="stepLabel">Step 3:</b> Download image:</div>
+      <div class="section__Label"><b class="stepLabel">Step 3:</b> Download encrypted image:</div>
       <div class="section__Item">
         <label class="button">
           Download image with hidden text

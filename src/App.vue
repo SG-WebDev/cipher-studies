@@ -12,7 +12,7 @@
         <router-link class="nav__Link" to="/bbs">BBS</router-link>
       </div>
       <div class="nav__Item">
-        <router-link class="nav__Link" to="/shamir">Shamir</router-link>
+        <router-link class="nav__Link" to="/stegano">Stegano</router-link>
       </div>
     </div>
   </div>

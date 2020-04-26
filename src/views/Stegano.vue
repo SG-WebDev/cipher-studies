@@ -1,6 +1,6 @@
 <template>
   <div class="rows-transition">
-    <h1>Shamir</h1>
+    <h1>Stegano</h1>
     <section class="section">
 
     </section>
@@ -19,7 +19,7 @@
 
     },
     methods: {
-     
+
     }
   };
 </script>

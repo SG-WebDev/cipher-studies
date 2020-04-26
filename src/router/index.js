@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import RowsTransition from '../views/RowsTransition.vue'
 import BBS from '../views/BBS.vue'
-import Shamir from '../views/Shamir.vue'
+import Stegano from '../views/Stegano.vue'
 
 Vue.use(VueRouter)
 
@@ -24,9 +24,9 @@ const routes = [
     component: BBS
   },
   {
-    path: '/shamir',
-    name: 'Shamir',
-    component: Shamir
+    path: '/stegano',
+    name: 'Stegano',
+    component: Stegano
   }
 ];
 

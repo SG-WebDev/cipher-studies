@@ -11,6 +11,9 @@
       <div class="nav__Item">
         <router-link class="nav__Link" to="/bbs">BBS</router-link>
       </div>
+      <div class="nav__Item">
+        <router-link class="nav__Link" to="/shamir">Shamir</router-link>
+      </div>
     </div>
   </div>
 </template>

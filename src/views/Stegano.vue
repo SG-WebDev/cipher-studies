@@ -28,7 +28,7 @@
         <span class="previewLabel">Original Image Preview:</span>
         <img id="previewOriginalIMG" class="previewImage" src="" alt="Preview of uploaded image">
         <span class="previewLabel">Encrypted Image Preview:</span>
-        <img id="previewEncryptedlIMG" class="previewImage" src="" alt="Preview of uploaded image">
+        <img id="previewEncryptedIMG" class="previewImage" src="" alt="Preview of uploaded image">
       </div>
       <div class="section__Label"><b class="stepLabel">Step 3:</b> Download image:</div>
       <div class="section__Item">

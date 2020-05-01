@@ -13,7 +13,7 @@
                 v-model="inputString">
         </textarea>
       </div>
-      <div class="section__Label"><b class="stepLabel">Step 2:</b> Upload image:</div>
+      <div class="section__Label"><b class="stepLabel">Step 2:</b> Upload image (preferred jpg or png):</div>
       <div class="section__Item">
         <label class="button">
           Upload image to hide text
@@ -81,6 +81,8 @@
       return {
         inputString: '',
         outputString: '',
+        originalImageBase64: '',
+        encryptedImageBase64: '',
         maxChars: '256000' //256kB
       };
     },
@@ -88,8 +90,17 @@
 
     },
     methods: {
-      uploadOriginalImage() {
-
+      uploadOriginalImage(e) {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = e => this.$emit("load",
+                this.originalImageBase64 =  e.target.result);
+        reader.onloadend = e => {
+          console.log(this.originalImageBase64)
+          this.previewOriginalImage();
+          this.previewEncryptedImage();
+        }
       },
       previewOriginalImage() {
 

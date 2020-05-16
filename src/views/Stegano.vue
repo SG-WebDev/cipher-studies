@@ -4,15 +4,17 @@
     <section class="section">
       <div class="section__Label"><b class="stepLabel">Step 1:</b> Text Input:</div>
       <div class="section__Item">
+        <!--524288 is default maxlength value-->
         <textarea
-                placeholder="Type text to hide here ..."
-                :maxlength="maxChars"
+                placeholder="Type text to hide here ... "
+                :maxlength="maxChars ? maxChars : 524288"
                 name="rows-transition-input"
                 cols="30"
                 rows="10"
                 v-model="inputString">
         </textarea>
       </div>
+      <p>Maximium chars amount is: <i>{{maxChars ? maxChars : "It will be calculate after step 2"}} </i></p>
       <div class="section__Label"><b class="stepLabel">Step 2:</b> Upload image (preferred jpg or png):</div>
       <div class="section__Item">
         <label class="button">
@@ -86,12 +88,20 @@
   .previewLabel {
     margin: 12px;
   }
+  i {
+    font-weight: 300;
+    font-family: Helvetica,monospace;
+  }
 </style>
 <script>
   export default {
     data() {
       return {
         inputString: '',
+        imageNaturalSize: {
+          width: 0,
+          height: 0,
+        },
         inputArray: null,
         imageArray: null,
         uploadedImageArray: null,
@@ -99,8 +109,12 @@
         originalImageBase64: '',
         encryptedImageBase64: '',
         index: 0,
-        maxChars: 256
       };
+    },
+    computed: {
+      maxChars() {
+        return this.imageNaturalSize.width * this.imageNaturalSize.height * 3;
+      }
     },
     methods: {
       uploadOriginalImage(e) {
@@ -126,9 +140,11 @@
         originalCanvas.classList.add('previewImage--active');
         encryptedCanvas.classList.add('previewImage--active');
         tempIMG.src = this.originalImageBase64;
+        ctx.clearRect(0, 0, originalCanvas.width, originalCanvas.height);
+        ctxSecret.clearRect(0, 0, encryptedCanvas.width, encryptedCanvas.height);
         const self = this;
         setTimeout(function () {
-          ctx.drawImage(tempIMG, 0, 0 );
+          ctx.drawImage(tempIMG, 0, 0, 300,300 * tempIMG.height / tempIMG.width );
           self.imageArray = ctx.getImageData( 0, 0, originalCanvas.height, originalCanvas.width );
         }, 500);
         setTimeout(function () {
@@ -137,6 +153,8 @@
         setTimeout(function () {
           ctxSecret.putImageData(self.imageArray, 0, 0 );
         }, 500);
+        this.imageNaturalSize.width = originalImage.naturalWidth;
+        this.imageNaturalSize.height = originalImage.naturalHeight;
       },
       uploadEncryptedImage(e) {
         const encryptedFile = e.target.files[0];
@@ -152,7 +170,7 @@
           anotherTempImg.src = this.encryptedImageBase64;
           const self = this;
           setTimeout(() => {
-            ctxCoverAfter.drawImage(anotherTempImg, 0, 0 );
+            ctxCoverAfter.drawImage(anotherTempImg, 0, 0, 300,300 * anotherTempImg.height / anotherTempImg.width );
             self.uploadedImageArray = ctxCoverAfter.getImageData( 0, 0, coverAfter.height, coverAfter.width );
           }, 500);
           setTimeout(() => {

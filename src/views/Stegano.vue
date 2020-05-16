@@ -144,10 +144,10 @@
         ctxSecret.clearRect(0, 0, encryptedCanvas.width, encryptedCanvas.height);
         const self = this;
         setTimeout(function () {
-          self.imageNaturalSize.width = originalImage.naturalWidth;
-          self.imageNaturalSize.height = originalImage.naturalHeight;
           ctx.drawImage(tempIMG, 0, 0, 300,300 * tempIMG.height / tempIMG.width );
           self.imageArray = ctx.getImageData( 0, 0, originalCanvas.height, originalCanvas.width );
+          self.imageNaturalSize.width = originalImage.naturalWidth;
+          self.imageNaturalSize.height = originalImage.naturalHeight;
         }, 500);
         setTimeout(function () {
           self.readByte()

@@ -144,6 +144,8 @@
         ctxSecret.clearRect(0, 0, encryptedCanvas.width, encryptedCanvas.height);
         const self = this;
         setTimeout(function () {
+          self.imageNaturalSize.width = originalImage.naturalWidth;
+          self.imageNaturalSize.height = originalImage.naturalHeight;
           ctx.drawImage(tempIMG, 0, 0, 300,300 * tempIMG.height / tempIMG.width );
           self.imageArray = ctx.getImageData( 0, 0, originalCanvas.height, originalCanvas.width );
         }, 500);
@@ -153,8 +155,6 @@
         setTimeout(function () {
           ctxSecret.putImageData(self.imageArray, 0, 0 );
         }, 500);
-        this.imageNaturalSize.width = originalImage.naturalWidth;
-        this.imageNaturalSize.height = originalImage.naturalHeight;
       },
       uploadEncryptedImage(e) {
         const encryptedFile = e.target.files[0];

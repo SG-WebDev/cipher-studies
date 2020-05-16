@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import RowsTransition from '../views/RowsTransition.vue'
 import BBS from '../views/BBS.vue'
 import Stegano from '../views/Stegano.vue'
+import DH from '../views/DH.vue'
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,11 @@ const routes = [
     path: '/stegano',
     name: 'Stegano',
     component: Stegano
+  },
+  {
+    path: '/dh',
+    name: 'DH',
+    component: DH
   }
 ];
 

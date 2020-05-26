@@ -54,6 +54,7 @@
     .smallText {
         font-size: 12px;
         word-break: break-all;
+        font-family: "Helvetica", monospace;
     }
     p {
         padding: 0 15px;
@@ -86,12 +87,20 @@
         },
         methods: {
             setP() {
-                //static prime number
-                this.p = 71;
+                // static 30 digit 99 bit length prime number
+                // get by https://primes.utm.edu/lists/small/small.html
+                const p = bigInteger("564819669946735512444543556507");
+                console.log("big prime number p is: " + p.toString());
+                console.log("p bit lenght: " + p.bitLength());
+                console.log("p is prime: " + p.isPrime());
+                this.p = p;
             },
             setG() {
                 // static primitive root modulo n
-                this.g = 7;
+                // calculated https://www.wolframalpha.com/widgets/view.jsp?id=ef51422db7db201ebc03c8800f41ba99
+                const g = bigInteger("564819669946735512444543556503");
+                console.log("g(primitive roots modulo p) is: " + g.toString());
+                this.g = g;
             },
             getClientAPrivateKey() {
                 //512 bit length number
@@ -106,7 +115,7 @@
                 this.clientA.X = X;
             },
             getClientBPrivateKey() {
-                //512 bit length number
+                // 512 bit length number
                 let min = bigInteger.zero;
                 let max = bigInteger(2).pow(512);
                 let bigRandomNumber = bigInteger.randBetween(min, max);
@@ -139,6 +148,7 @@
                 else {
                     this.k = "Something went wrong :/";
                 }
+                console.log(this.k.bitLength());
             },
             runDH() {
                 this.setP();

@@ -5,6 +5,7 @@ import RowsTransition from '../views/RowsTransition.vue'
 import BBS from '../views/BBS.vue'
 import Stegano from '../views/Stegano.vue'
 import DH from '../views/DH.vue'
+import RSA from '../views/RSA.vue'
 
 Vue.use(VueRouter)
 
@@ -33,6 +34,11 @@ const routes = [
     path: '/dh',
     name: 'DH',
     component: DH
+  },
+  {
+    path: '/rsa',
+    name: 'RSA',
+    component: RSA
   }
 ];
 

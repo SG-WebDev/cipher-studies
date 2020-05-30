@@ -4,40 +4,63 @@
         <section class="section">
             <div class="section__Item">
                 <p>p:
-                    <span class="smallText">{{ p ? p : "You're not run algorithm yet."}}</span>
+                    <span class="smallText">{{ p ? p : "Something went wrong."}}</span>
                 </p>
                 <p>q:
-                    <span class="smallText">{{q ? q : "You're not run algorithm yet."}}</span>
+                    <span class="smallText">{{q ? q : "Something went wrong."}}</span>
                 </p>
                 <p>n:
-                    <span class="smallText">{{n ? n : "You're not run algorithm yet."}}</span>
+                    <span class="smallText">{{n ? n : "Something went wrong."}}</span>
                 </p>
                 <p>phi:
-                    <span class="smallText">{{phi ? phi : "You're not run algorithm yet."}}</span>
+                    <span class="smallText">{{phi ? phi : "Something went wrong."}}</span>
                 </p>
             </div>
             <div class="section__Item">
-                <p>e (encrypted key):
-                    <span class="smallText">{{ e ? e : "You're not run algorithm yet."}}</span>
+                <button class="button" @click="generateKeys">Generate Keys</button>
+            </div>
+            <div class="section__Item">
+                <p>e:
+                    <span class="smallText">{{ e ? e : "You're not generate keys yet."}}</span>
                 </p>
-                <p>d (decrypted key):
-                    <span class="smallText">{{d ? d : "You're not run algorithm yet."}}</span>
+                <p>d:
+                    <span class="smallText">{{d ? d : "You're not generate keys yet."}}</span>
                 </p>
             </div>
             <div class="section__Item">
-                <button class="button" @click="runRSA">RUN</button>
+                <p>Text to encrypt:
+                    <span class="smallText">{{ inputText ? inputText : "Something went wrong."}}</span>
+                </p>
+            </div>
+            <div class="section__Item">
+                <button class="button" @click="encryptBytes">Encrypt Text</button>
+            </div>
+            <div class="section__Item">
+                <p>Encrypted Input:
+                    <span class="smallText">{{ encryptedInput ? encryptedInput : "You're not run encryption yet."}}</span>
+                </p>
+            </div>
+            <div class="section__Item">
+                <button class="button" @click="decryptBytes">Decrypt Text</button>
+            </div>
+            <div class="section__Item">
+                <p>Decrypted Text:
+                    <span class="smallText">{{ outputText ? outputText : "You're not run decryption yet."}}</span>
+                </p>
             </div>
         </section>
     </div>
 </template>
 <style scoped>
     p {
-      padding: 0 15px;
+        padding: 0 15px;
         font-family: "Helvetica", serif;
-    }
-    .smallText {
         font-weight: bold;
     }
+    p span {
+        font-weight: normal;
+    }
+
 </style>
 <script>
     import bigInteger from "big-integer";
@@ -49,6 +72,11 @@
                 q: 4111,
                 e: null,
                 d: null,
+                inputText: "Lorem ipsum dolor sit amet consectetur efficittur.",
+                encryptedBytes: null,
+                encryptedInput: null,
+                decryptedBytes: null,
+                outputText: null,
             };
         },
         computed: {
@@ -57,7 +85,8 @@
             },
             phi() {
                 return (this.p - 1) * (this.q - 1);
-            }
+            },
+
         },
         methods: {
             generateE() {
@@ -86,7 +115,44 @@
                 console.log("Decryption key: " + d);
                 this.d = d;
             },
-            runRSA() {
+            encryptByte(byte) {
+                let localE = this.e;
+                let localN = this.n;
+                return bigInteger(byte).modPow(localE, localN);
+            },
+            decryptByte(c) {
+                let localD = this.d;
+                let localN = this.n;
+                return bigInteger(c).modPow(localD, localN);
+            },
+            encryptBytes() {
+                let inputText = this.inputText;
+                let inputArray = inputText.split("");
+                let tempArray = [];
+                inputArray.forEach(item => {
+                    let asciiItem = item.charCodeAt(0);
+                    let encryptedItem = this.encryptByte(asciiItem);
+                    tempArray.push(encryptedItem);
+                })
+                this.encryptedBytes = tempArray;
+                console.log("Encrypted Array: ");
+                console.log(this.encryptedBytes);
+                this.encryptedInput = this.encryptedBytes.toString().split(",").join(" ");
+            },
+            decryptBytes() {
+                let encryptedBytes = this.encryptedBytes;
+                let tempArray = [];
+                encryptedBytes.forEach(item => {
+                    let decryptedItem = this.decryptByte(item);
+                    let stringItem = String.fromCharCode(decryptedItem);
+                    tempArray.push(stringItem);
+                })
+                this.decryptedBytes = tempArray;
+                console.log("Decrypted Array: ");
+                console.log(this.decryptedBytes);
+                this.outputText = this.decryptedBytes.toString().split(",").join("");
+            },
+            generateKeys() {
                 this.generateE();
                 this.generateD();
             }
